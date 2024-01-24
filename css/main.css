@@ -13,7 +13,7 @@ body {
 
 a,
 a:hover {
-  color: #a00;
+  color: #1D3A83;
   text-decoration: none;
 }
 
@@ -68,7 +68,7 @@ blockquote {
   font-size: 1.4rem;
   font-family: Georgia, bitstream charter, serif;
   border-left: 3px solid;
-  border-color: #a00;
+  border-color: #1D3A83;
   padding-left: 20px;
 }
 
@@ -82,7 +82,7 @@ span {
 
 a,
 a:hover {
-  color: #a00;
+  color: #1D3A83;
   text-decoration: none;
 }
 
@@ -118,7 +118,7 @@ h3 {
 
 h4 {
   font-size: 1.2rem;
-  color: #8C1515;
+  color: #1D3A83;
 }
 
 h5 {
@@ -259,7 +259,7 @@ ul {
 }
 
 .header .site-affilation .position {
-  /* color: #a00; */
+   color: #1D3A83; 
   /* font-size: 14px; */
   /* display: block; */
   font-family: Ubuntu;
@@ -306,7 +306,7 @@ ul {
 }
 
 .email {
-  /* color: #a00; */
+   color: #1D3A83; 
   font-size: 16px;
   font-family: "Ubuntu Mono";
   font-weight: bolder;
