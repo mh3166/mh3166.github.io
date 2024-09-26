@@ -114,6 +114,7 @@ h2 {
 
 h3 {
   font-size: 1.6rem;
+  font-weight: 550;
 }
 
 h4 {
@@ -319,8 +320,9 @@ ul {
 }
 
 .year {
-  font-size: 1.1em;
-  margin-bottom: -.0em;
+  font-size: 1.2em;
+  margin-bottom: .5em;
+  font-weight: 500;
 }
 
 .project {
