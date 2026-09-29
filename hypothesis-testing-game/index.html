@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Hypothesis Testing Game - Michael Huang</title><link rel="apple-touch-icon" sizes="180x180" href=https://mh3166.github.io/apple-touch-icon.png>
+	<link rel="icon" type="image/png" sizes="32x32" href=https://mh3166.github.io/favicon-32x32.png>
+	<link rel="icon" type="image/png" sizes="16x16" href=https://mh3166.github.io/favicon-16x16.png>
+	<link rel="manifest" href=https://mh3166.github.io/site.webmanifest>
+	<link rel="mask-icon" href=https://mh3166.github.io/safari-pinned-tab.svg color="#5bbad5">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="theme-color" content="#ffffff">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:url" content="https://mh3166.github.io/hypothesis-testing-game/">
+  <meta property="og:site_name" content="Michael Huang">
+  <meta property="og:title" content="Hypothesis Testing Game">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2026-09-29T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-09-29T00:00:00+00:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Hypothesis Testing Game">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:500,100,300" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" media="screen" href=https://mh3166.github.io/css/normalize.css>
+	<link rel="stylesheet" type="text/css" media="screen" href=https://mh3166.github.io/css/main.css>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons/css/academicons.min.css">
+	
+	<script src=https://mh3166.github.io/js/feather.min.js></script><script src=https://mh3166.github.io/js/main.js></script>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+	</head>
+
+    <body>
+        <div id="content">
+
+<style>
+  .hypothesis-game-page {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 20px 48px;
+  }
+
+  .hypothesis-game-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .hypothesis-game-header .page_title {
+    margin-top: 0;
+  }
+
+  .hypothesis-game-subtitle {
+    margin: 4px 0 0;
+    color: #666;
+  }
+
+  .hypothesis-game-frame {
+    display: block;
+    width: 100%;
+    height: 1250px;
+    border: 0;
+    background: #f7f9fc;
+  }
+
+  @media (max-width: 767px) {
+    .hypothesis-game-page {
+      padding: 0 0 32px;
+    }
+
+    .hypothesis-game-header {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .hypothesis-game-frame {
+      height: 1750px;
+    }
+  }
+</style>
+
+<main class="hypothesis-game-page">
+  <header class="hypothesis-game-header">
+    <div>
+      <span class="page_title">Hypothesis Testing Game</span>
+      <p class="hypothesis-game-subtitle">Explore sample size, significance level, and the cost of an incorrect decision.</p>
+    </div>
+    <a href="/" title="Home" class="page_meta">Return Home</a>
+  </header>
+
+  <iframe
+    id="hypothesis-game-frame"
+    class="hypothesis-game-frame"
+    src="/games/hypothesis-testing/"
+    title="Interactive hypothesis testing game"
+    loading="eager"
+  ></iframe>
+</main>
+
+</div>
+        <div class="footer wrapper">
+	<nav class="nav">
+		<div><a href="https://github.com/hadisinaee/avicenna">Avicenna Theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+	</nav>
+</div>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8T3S30J5K"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-H8T3S30J5K');
+        }
+      </script>
+    
+  
+
+<script>
+	feather.replace()
+
+</script>
+    </body>
+</html>

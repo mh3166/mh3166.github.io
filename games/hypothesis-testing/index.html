@@ -1,0 +1,2681 @@
+<!doctype html>
+<html lang="en" data-visualize-standalone>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Hypothesis Testing Game</title>
+<style>:root{color-scheme:light;background:rgb(247 249 252)}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0;background:rgb(247 249 252)}</style>
+</head>
+<body>
+<iframe id="codex-visualization" sandbox="allow-scripts" referrerpolicy="no-referrer" title="Hypothesis Testing Game" data-srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-visualize-standalone&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;Hypothesis Testing Game&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 14px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --icon-size: 16px;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --corner-shape: round;
+  --radius: var(--border-radius-lg, 10px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: var(--visualize-paint-gutter, 0px);
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+.cursor-interaction {
+  cursor: var(--cursor-interaction, pointer);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: var(--cursor-interaction, pointer);
+  font-weight: var(--font-weight-medium, 500);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive &gt; .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align=&quot;right&quot;]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align=&quot;center&quot;]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: var(--corner-shape);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  margin-block: 6px;
+  border: 0;
+  background: var(--border);
+}
+
+.nav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress {
+  display: flex;
+  height: 8px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 8px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar:only-child {
+  border-radius: var(--radius-full);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.nav-link,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn,
+.nav-link {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: var(--cursor-interaction, pointer);
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover,
+.nav-link:not(:disabled):not([aria-disabled=&quot;true&quot;]):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.nav-pills .nav-link {
+  min-width: 0;
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.nav-justified .nav-link {
+  flex: 1 1 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.nav-pills .nav-link.active {
+  color: var(--foreground);
+  background: var(--muted);
+}
+
+.btn:disabled,
+.nav-link:disabled,
+.nav-link[aria-disabled=&quot;true&quot;] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: var(--corner-shape);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed=&quot;true&quot;],
+  [aria-selected=&quot;true&quot;],
+  .is-selected
+) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+  .btn,
+  .nav-link,
+  .form-control,
+  .form-select {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Keep small-screen WebKit from zooming when a text field receives focus. */
+  .form-control,
+  .form-select {
+    font-size: max(16px, var(--font-size-normal));
+  }
+
+  .form-control[type=&quot;file&quot;]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control-color[type=&quot;color&quot;] {
+    width: 44px;
+    height: 44px;
+  }
+
+  .form-control:is(
+    [type=&quot;date&quot;],
+    [type=&quot;datetime-local&quot;],
+    [type=&quot;month&quot;],
+    [type=&quot;time&quot;],
+    [type=&quot;week&quot;]
+  ) {
+    min-width: 0;
+    max-width: 100%;
+    padding-block: 8px;
+  }
+
+  .form-check {
+    min-height: 44px;
+    padding-inline: 15px;
+  }
+
+  .form-check-input {
+    position: relative;
+  }
+
+  .form-check-input::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    content: &quot;&quot;;
+    transform: translate(-50%, -50%);
+  }
+
+  .form-check-label {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-range {
+    height: 44px;
+    touch-action: pan-y;
+  }
+
+  .form-range::-webkit-slider-runnable-track {
+    height: 44px;
+  }
+
+  .form-range::-moz-range-track {
+    height: 44px;
+  }
+
+  .form-range::-webkit-slider-thumb {
+    margin-top: 12px;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;script type=&quot;application/json&quot; id=&quot;codex-visualization-widget-state&quot;&gt;__CODEX_VISUALIZATION_WIDGET_STATE__&lt;/script&gt;
+&lt;script&gt;(() =&gt; {
+  const root = document.documentElement;
+  const mediaQuery = globalThis.matchMedia(&quot;(prefers-color-scheme: dark)&quot;);
+  const apply = Reflect.apply;
+  const isArray = Array.isArray;
+  const hasOwn = Object.hasOwn;
+  const parentWindow = globalThis.parent;
+  const stringify = JSON.stringify;
+  const parse = JSON.parse;
+  const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
+  const initialStateElement = document.getElementById(
+    &quot;codex-visualization-widget-state&quot;,
+  );
+  const initialGlobals = parse(initialStateElement?.textContent ?? &quot;{}&quot;);
+  initialStateElement?.remove();
+  /** @type {Record&lt;string, unknown&gt; | null} */
+  let state = initialGlobals.widgetState ?? null;
+  const statePersistence = initialGlobals.statePersistence ?? &quot;none&quot;;
+  let nextStateRequestId = 0;
+  /** @type {Map&lt;number, { resolve: () =&gt; void; reject: (error: Error) =&gt; void; timeout: ReturnType&lt;typeof globalThis.setTimeout&gt;; serializedState: string }&gt;} */
+  const pendingStateWrites = new Map();
+  const persistenceError = () =&gt;
+    Object.assign(
+      new Error(&quot;The host could not persist the widget state update&quot;),
+      {
+        code: -32000,
+        data: { code: &quot;widget_state_persistence_failed&quot;, retryable: false },
+      },
+    );
+  /**
+   * @param {object} prototype
+   * @param {string} property
+   */
+  const getPrototypeGetter = (prototype, property) =&gt; {
+    // oxlint-disable-next-line typescript/unbound-method -- invoked through captured Reflect.apply
+    const getter = Object.getOwnPropertyDescriptor(prototype, property)?.get;
+    if (getter == null) {
+      throw new Error(`Missing ${property} getter`);
+    }
+    return getter;
+  };
+  const getMessageData = getPrototypeGetter(MessageEvent.prototype, &quot;data&quot;);
+  const getMessagePorts = getPrototypeGetter(MessageEvent.prototype, &quot;ports&quot;);
+  const getMessageSource = getPrototypeGetter(MessageEvent.prototype, &quot;source&quot;);
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const addHostMessageListener = MessagePort.prototype.addEventListener;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const postHostMessage = MessagePort.prototype.postMessage;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const startHostPort = MessagePort.prototype.start;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const stopMessagePropagation = Event.prototype.stopImmediatePropagation;
+  /** @type {MessagePort | null} */
+  let hostPort = null;
+  const postToHost = (type, payload) =&gt; {
+    if (hostPort != null) {
+      apply(postHostMessage, hostPort, [{ type, ...payload }]);
+    }
+  };
+  const openExternal = ({ href }) =&gt; {
+    if (globalThis.navigator.userActivation?.isActive === true) {
+      postToHost(&quot;open-external&quot;, { href });
+    }
+  };
+  const sendFollowUpMessage = ({ context, prompt, title }) =&gt; {
+    if (globalThis.navigator.userActivation?.isActive === true) {
+      postToHost(&quot;follow-up&quot;, { context, prompt, title });
+    }
+    return Promise.resolve();
+  };
+  /**
+   * @param {Record&lt;string, unknown&gt; | ((previous: Record&lt;string, unknown&gt; | null) =&gt; Record&lt;string, unknown&gt;)} next
+   * @returns {Promise&lt;void&gt;}
+   */
+  const setWidgetState = async (next) =&gt; {
+    const nextState = typeof next === &quot;function&quot; ? next(state) : next;
+    if (
+      nextState == null ||
+      typeof nextState !== &quot;object&quot; ||
+      isArray(nextState)
+    ) {
+      throw new TypeError(&quot;Widget state must be a JSON object&quot;);
+    }
+    const inputState = stringify(
+      nextState,
+      (_key, /** @type {unknown} */ value) =&gt; {
+        if (
+          typeof value === &quot;undefined&quot; ||
+          typeof value === &quot;function&quot; ||
+          typeof value === &quot;symbol&quot; ||
+          (typeof value === &quot;number&quot; &amp;&amp; !Number.isFinite(value))
+        ) {
+          throw new TypeError(&quot;Widget state must be a JSON object&quot;);
+        }
+        return value;
+      },
+    );
+    const parsedState = parse(inputState);
+    if (
+      parsedState == null ||
+      typeof parsedState !== &quot;object&quot; ||
+      isArray(parsedState)
+    ) {
+      throw new TypeError(&quot;Widget state must be a JSON object&quot;);
+    }
+    const storedState = {
+      modelContent: null,
+      privateContent: null,
+      ...parsedState,
+    };
+    const serializedState = stringify(storedState);
+    if (encode(serializedState).length &gt; 16 * 1024) {
+      throw new TypeError(
+        &quot;Widget state must be a JSON object of at most 16 KiB&quot;,
+      );
+    }
+    if (
+      hasOwn(storedState, &quot;imageIds&quot;) &amp;&amp;
+      (!isArray(storedState.imageIds) ||
+        storedState.imageIds.some(
+          (/** @type {unknown} */ id) =&gt; typeof id !== &quot;string&quot;,
+        ))
+    ) {
+      throw new TypeError(&quot;Widget state imageIds must be an array of strings&quot;);
+    }
+    if (storedState.imageIds?.length &gt; 0) {
+      throw Object.assign(
+        new TypeError(&quot;Visualization state does not support image attachments&quot;),
+        { code: -32602, data: { code: &quot;images_unsupported&quot; } },
+      );
+    }
+    state = storedState;
+    globalThis.openai.widgetState = state;
+    globalThis.dispatchEvent(
+      new CustomEvent(&quot;openai:set_globals&quot;, {
+        detail: { globals: { widgetState: state } },
+      }),
+    );
+    if (statePersistence === &quot;none&quot;) {
+      throw persistenceError();
+    }
+    const id = ++nextStateRequestId;
+    return new Promise((resolve, reject) =&gt; {
+      const timeout = globalThis.setTimeout(() =&gt; {
+        pendingStateWrites.delete(id);
+        reject(persistenceError());
+      }, 30_000);
+      pendingStateWrites.set(id, { resolve, reject, timeout, serializedState });
+      postToHost(&quot;widget-state-write&quot;, { id, state: serializedState });
+    });
+  };
+  const syncTheme = () =&gt; {
+    const theme = mediaQuery.matches ? &quot;dark&quot; : &quot;light&quot;;
+    root.dataset.theme = theme;
+    globalThis.openai = {
+      ...globalThis.openai,
+      openExternal,
+      sendFollowUpMessage,
+      setWidgetState,
+      theme,
+      visualizationStyleVariables: {},
+      visualizationTheme: theme,
+      widgetState: state,
+      statePersistence,
+      stateModelContext: &quot;none&quot;,
+    };
+    globalThis.dispatchEvent(
+      new CustomEvent(&quot;openai:set_globals&quot;, {
+        detail: { globals: globalThis.openai },
+      }),
+    );
+  };
+  const sendHeight = () =&gt; {
+    postToHost(&quot;height&quot;, {
+      height: Math.ceil(
+        Math.max(
+          document.body.scrollHeight,
+          document.body.getBoundingClientRect().height,
+        ),
+      ),
+    });
+  };
+
+  globalThis.addEventListener(
+    &quot;message&quot;,
+    (event) =&gt; {
+      const data = apply(getMessageData, event, []);
+      const ports = apply(getMessagePorts, event, []);
+      const source = apply(getMessageSource, event, []);
+      if (
+        hostPort != null ||
+        source !== parentWindow ||
+        typeof data !== &quot;object&quot; ||
+        data?.type !== &quot;codex-visualization-initialize&quot; ||
+        !isArray(ports) ||
+        ports.length !== 1
+      ) {
+        return;
+      }
+      apply(stopMessagePropagation, event, []);
+      const nextHostPort = ports[0];
+      try {
+        apply(addHostMessageListener, nextHostPort, [
+          &quot;message&quot;,
+          (event) =&gt; {
+            const data = apply(getMessageData, event, []);
+            if (typeof data === &quot;object&quot; &amp;&amp; data?.type === &quot;measure&quot;) {
+              sendHeight();
+            } else if (
+              typeof data === &quot;object&quot; &amp;&amp;
+              data?.type === &quot;widget-state-result&quot;
+            ) {
+              /** @type {unknown} */
+              const id = data.id;
+              if (typeof id !== &quot;number&quot;) {
+                return;
+              }
+              const pending = pendingStateWrites.get(id);
+              if (pending != null) {
+                pendingStateWrites.delete(id);
+                globalThis.clearTimeout(pending.timeout);
+                if (data.ok === true) {
+                  pending.resolve();
+                } else {
+                  pending.reject(persistenceError());
+                }
+              }
+            }
+          },
+        ]);
+        apply(startHostPort, nextHostPort, []);
+      } catch {
+        return;
+      }
+      hostPort = nextHostPort;
+      for (const [id, { serializedState }] of pendingStateWrites) {
+        postToHost(&quot;widget-state-write&quot;, { id, state: serializedState });
+      }
+      sendHeight();
+    },
+    { capture: true },
+  );
+  document.currentScript?.remove();
+  mediaQuery.addEventListener(&quot;change&quot;, syncTheme);
+  globalThis.addEventListener(&quot;click&quot;, (event) =&gt; {
+    if (event.defaultPrevented) {
+      return;
+    }
+    let element = null;
+    if (event.target instanceof globalThis.Element) {
+      element = event.target;
+    } else if (event.target instanceof globalThis.Node) {
+      element = event.target.parentElement;
+    }
+    const link = element?.closest(&quot;a[href]&quot;);
+    const href = link?.getAttribute(&quot;href&quot;);
+    if (href == null) {
+      return;
+    }
+    if (href.startsWith(&quot;#&quot;)) {
+      let id;
+      try {
+        id = decodeURIComponent(href.slice(1));
+      } catch {
+        return;
+      }
+      const target = id.length === 0 ? root : document.getElementById(id);
+      if (
+        target == null ||
+        globalThis.navigator.userActivation?.isActive !== true
+      ) {
+        return;
+      }
+      event.preventDefault();
+      postToHost(&quot;scroll-to&quot;, {
+        top: target.getBoundingClientRect().top + globalThis.scrollY,
+      });
+      return;
+    }
+    event.preventDefault();
+    openExternal({ href });
+  });
+  new ResizeObserver(sendHeight).observe(document.body);
+  syncTheme();
+})();
+&lt;/script&gt;
+&lt;div id=&quot;qnt-hypothesis-game&quot;&gt;
+  &lt;style&gt;
+    html,
+    html &gt; body {
+      background: #f7f9fc !important;
+      color-scheme: light;
+    }
+    #qnt-hypothesis-game {
+      color-scheme: light;
+      --background: #f7f9fc;
+      --foreground: #182230;
+      --card: #ffffff;
+      --card-foreground: #182230;
+      --popover: #ffffff;
+      --popover-foreground: #182230;
+      --primary: #1d3a83;
+      --primary-foreground: #ffffff;
+      --secondary: #edf2f8;
+      --secondary-foreground: #182230;
+      --muted: #edf1f5;
+      --muted-foreground: #5b6472;
+      --accent: #e8eefc;
+      --accent-foreground: #1d3a83;
+      --destructive: #b42318;
+      --border: #d7dee8;
+      --input: #c7d0dd;
+      --ring: #1d3a83;
+      --green: #237a4b;
+      --red: #b42318;
+      --viz-series-1: #315da8;
+      background: var(--background);
+      color: var(--foreground);
+      align-content: start;
+      box-sizing: border-box;
+      display: grid;
+      gap: 18px;
+      padding: 18px;
+    }
+    #qnt-hypothesis-game .qnt-header,
+    #qnt-hypothesis-game .qnt-actions,
+    #qnt-hypothesis-game .qnt-section-head,
+    #qnt-hypothesis-game .qnt-track-labels {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    #qnt-hypothesis-game .qnt-header-copy {
+      display: grid;
+      gap: 3px;
+    }
+    #qnt-hypothesis-game .qnt-header h2,
+    #qnt-hypothesis-game .qnt-section-head h3,
+    #qnt-hypothesis-game p {
+      margin: 0;
+    }
+    #qnt-hypothesis-game .qnt-control-value {
+      font-variant-numeric: tabular-nums;
+      color: var(--foreground);
+    }
+    #qnt-hypothesis-game .qnt-sample-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-height: 34px;
+      align-items: center;
+    }
+    #qnt-hypothesis-game .qnt-sample {
+      background: var(--muted);
+      color: var(--muted-foreground);
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-variant-numeric: tabular-nums;
+    }
+    #qnt-hypothesis-game .qnt-test-field {
+      display: grid;
+      gap: 10px;
+    }
+    #qnt-hypothesis-game .qnt-track-wrap {
+      padding-top: 16px;
+      position: relative;
+    }
+    #qnt-hypothesis-game .qnt-track {
+      height: 18px;
+      display: flex;
+      overflow: visible;
+      border-radius: 999px;
+      background: var(--muted);
+      position: relative;
+    }
+    #qnt-hypothesis-game .qnt-region-left,
+    #qnt-hypothesis-game .qnt-region-right {
+      background: color-mix(in srgb, var(--viz-series-1) 34%, transparent);
+    }
+    #qnt-hypothesis-game .qnt-region-left {
+      border-radius: 999px 0 0 999px;
+    }
+    #qnt-hypothesis-game .qnt-region-mid {
+      background: color-mix(in srgb, var(--muted-foreground) 13%, transparent);
+    }
+    #qnt-hypothesis-game .qnt-region-right {
+      border-radius: 0 999px 999px 0;
+    }
+    #qnt-hypothesis-game .qnt-marker {
+      position: absolute;
+      top: -8px;
+      width: 3px;
+      height: 34px;
+      border-radius: 999px;
+      background: var(--foreground);
+      transform: translateX(-50%);
+      transition: left 180ms ease;
+    }
+    #qnt-hypothesis-game .qnt-marker::before {
+      content: &quot;&quot;;
+      position: absolute;
+      left: 50%;
+      top: -6px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--foreground);
+      transform: translateX(-50%);
+    }
+    #qnt-hypothesis-game .qnt-cutoff {
+      position: absolute;
+      top: -20px;
+      transform: translateX(-50%);
+      color: var(--muted-foreground);
+      white-space: nowrap;
+    }
+    #qnt-hypothesis-game .qnt-track-labels {
+      color: var(--muted-foreground);
+    }
+    #qnt-hypothesis-game .qnt-decision-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+    #qnt-hypothesis-game .qnt-decision-grid .btn {
+      width: 100%;
+    }
+    #qnt-hypothesis-game .qnt-result {
+      min-height: 24px;
+    }
+    #qnt-hypothesis-game .qnt-progress-row {
+      display: grid;
+      grid-template-columns: minmax(88px, auto) 1fr minmax(54px, auto);
+      gap: 10px;
+      align-items: center;
+    }
+    #qnt-hypothesis-game .qnt-progress-row + .qnt-progress-row {
+      margin-top: 8px;
+    }
+    #qnt-hypothesis-game .qnt-table-note {
+      margin-top: 6px;
+    }
+    #qnt-hypothesis-game .qnt-batch-actions {
+      display: flex;
+      gap: 4px;
+      justify-content: flex-end;
+      white-space: nowrap;
+    }
+    #qnt-hypothesis-game .qnt-batch-actions .btn {
+      min-width: 34px;
+    }
+    #qnt-hypothesis-game .qnt-outcome-correct {
+      color: var(--green);
+    }
+    #qnt-hypothesis-game .qnt-outcome-wrong {
+      color: var(--red);
+    }
+    @media (max-width: 560px) {
+      #qnt-hypothesis-game .qnt-decision-grid {
+        grid-template-columns: 1fr;
+      }
+      #qnt-hypothesis-game .qnt-actions .btn {
+        flex: 1 1 auto;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #qnt-hypothesis-game .qnt-marker {
+        transition: none;
+      }
+    }
+  &lt;/style&gt;
+
+  &lt;header class=&quot;qnt-header&quot;&gt;
+    &lt;div class=&quot;qnt-header-copy&quot;&gt;
+      &lt;h2&gt;Hypothesis Testing Game&lt;/h2&gt;
+      &lt;p class=&quot;text-muted&quot;&gt;Test &lt;code&gt;H₀: μ = 0&lt;/code&gt; against &lt;code&gt;H₁: μ = −1 or 1&lt;/code&gt;.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;span class=&quot;viz-badge&quot; id=&quot;qnt-confidence-badge&quot;&gt;99% confidence&lt;/span&gt;
+  &lt;/header&gt;
+
+  &lt;div class=&quot;viz-controls&quot; aria-label=&quot;Game settings&quot;&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;qnt-n&quot;&gt;
+      Samples &lt;span class=&quot;qnt-control-value&quot; id=&quot;qnt-n-value&quot;&gt;4&lt;/span&gt;
+      &lt;input class=&quot;form-range&quot; id=&quot;qnt-n&quot; type=&quot;range&quot; min=&quot;1&quot; max=&quot;30&quot; step=&quot;1&quot; value=&quot;4&quot;&gt;
+    &lt;/label&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;qnt-alpha&quot;&gt;
+      Two-sided α
+      &lt;select class=&quot;form-select&quot; id=&quot;qnt-alpha&quot;&gt;
+        &lt;option value=&quot;0.5&quot;&gt;50%&lt;/option&gt;
+        &lt;option value=&quot;0.45&quot;&gt;45%&lt;/option&gt;
+        &lt;option value=&quot;0.4&quot;&gt;40%&lt;/option&gt;
+        &lt;option value=&quot;0.35&quot;&gt;35%&lt;/option&gt;
+        &lt;option value=&quot;0.3&quot;&gt;30%&lt;/option&gt;
+        &lt;option value=&quot;0.25&quot;&gt;25%&lt;/option&gt;
+        &lt;option value=&quot;0.2&quot;&gt;20%&lt;/option&gt;
+        &lt;option value=&quot;0.15&quot;&gt;15%&lt;/option&gt;
+        &lt;option value=&quot;0.1&quot;&gt;10%&lt;/option&gt;
+        &lt;option value=&quot;0.075&quot;&gt;7.5%&lt;/option&gt;
+        &lt;option value=&quot;0.05&quot;&gt;5%&lt;/option&gt;
+        &lt;option value=&quot;0.04&quot;&gt;4%&lt;/option&gt;
+        &lt;option value=&quot;0.03&quot;&gt;3%&lt;/option&gt;
+        &lt;option value=&quot;0.025&quot;&gt;2.5%&lt;/option&gt;
+        &lt;option value=&quot;0.02&quot;&gt;2%&lt;/option&gt;
+        &lt;option value=&quot;0.015&quot;&gt;1.5%&lt;/option&gt;
+        &lt;option value=&quot;0.01&quot; selected&gt;1%&lt;/option&gt;
+        &lt;option value=&quot;0.005&quot;&gt;0.5%&lt;/option&gt;
+        &lt;option value=&quot;0.002&quot;&gt;0.2%&lt;/option&gt;
+        &lt;option value=&quot;0.001&quot;&gt;0.1%&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/label&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;qnt-sigma&quot;&gt;
+      Known σ
+      &lt;select class=&quot;form-select&quot; id=&quot;qnt-sigma&quot;&gt;
+        &lt;option value=&quot;0.5&quot;&gt;0.5&lt;/option&gt;
+        &lt;option value=&quot;1&quot; selected&gt;1.0&lt;/option&gt;
+        &lt;option value=&quot;1.5&quot;&gt;1.5&lt;/option&gt;
+        &lt;option value=&quot;2&quot;&gt;2.0&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/label&gt;
+    &lt;label class=&quot;form-label&quot; for=&quot;qnt-loss&quot;&gt;
+      Wrong bet
+      &lt;select class=&quot;form-select&quot; id=&quot;qnt-loss&quot;&gt;
+        &lt;option value=&quot;1&quot;&gt;−1 point&lt;/option&gt;
+        &lt;option value=&quot;3&quot;&gt;−3 points&lt;/option&gt;
+        &lt;option value=&quot;5&quot; selected&gt;−5 points&lt;/option&gt;
+        &lt;option value=&quot;9&quot;&gt;−9 points&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/label&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;nav nav-pills&quot; role=&quot;tablist&quot; aria-label=&quot;Game mode&quot;&gt;
+    &lt;button class=&quot;nav-link active&quot; id=&quot;qnt-play-tab&quot; role=&quot;tab&quot; aria-controls=&quot;qnt-play-panel&quot; aria-selected=&quot;true&quot; type=&quot;button&quot;&gt;Play a round&lt;/button&gt;
+    &lt;button class=&quot;nav-link&quot; id=&quot;qnt-batch-tab&quot; role=&quot;tab&quot; aria-controls=&quot;qnt-batch-panel&quot; aria-selected=&quot;false&quot; type=&quot;button&quot;&gt;Play a batch&lt;/button&gt;
+    &lt;button class=&quot;nav-link&quot; id=&quot;qnt-lab-tab&quot; role=&quot;tab&quot; aria-controls=&quot;qnt-lab-panel&quot; aria-selected=&quot;false&quot; type=&quot;button&quot;&gt;Strategy lab&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;section id=&quot;qnt-play-panel&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;qnt-play-tab&quot;&gt;
+    &lt;div class=&quot;viz-grid&quot;&gt;
+      &lt;div class=&quot;card viz-stat&quot;&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;Score&lt;/span&gt;
+        &lt;span class=&quot;viz-stat-value tabular-nums&quot; id=&quot;qnt-score&quot;&gt;0&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card viz-stat&quot;&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;Rounds&lt;/span&gt;
+        &lt;span class=&quot;viz-stat-value tabular-nums&quot; id=&quot;qnt-round-count&quot;&gt;0&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card viz-stat&quot;&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;Test recommends&lt;/span&gt;
+        &lt;span class=&quot;viz-stat-value&quot; id=&quot;qnt-recommendation&quot;&gt;—&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;qnt-test-field&quot;&gt;
+      &lt;div class=&quot;qnt-section-head&quot;&gt;
+        &lt;h3&gt;Observed samples&lt;/h3&gt;
+        &lt;span class=&quot;text-muted tabular-nums&quot; id=&quot;qnt-round-stats&quot;&gt;Draw a round to begin&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;qnt-sample-strip&quot; id=&quot;qnt-samples&quot; aria-label=&quot;Observed sample values&quot;&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;No samples yet&lt;/span&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;qnt-track-wrap&quot; aria-label=&quot;Z test decision scale&quot;&gt;
+        &lt;div class=&quot;qnt-track&quot; id=&quot;qnt-track&quot;&gt;
+          &lt;div class=&quot;qnt-region-left&quot; id=&quot;qnt-left-region&quot;&gt;&lt;/div&gt;
+          &lt;div class=&quot;qnt-region-mid&quot; id=&quot;qnt-mid-region&quot;&gt;&lt;/div&gt;
+          &lt;div class=&quot;qnt-region-right&quot; id=&quot;qnt-right-region&quot;&gt;&lt;/div&gt;
+          &lt;span class=&quot;qnt-cutoff text-small tabular-nums&quot; id=&quot;qnt-left-cutoff&quot;&gt;&lt;/span&gt;
+          &lt;span class=&quot;qnt-cutoff text-small tabular-nums&quot; id=&quot;qnt-right-cutoff&quot;&gt;&lt;/span&gt;
+          &lt;span class=&quot;qnt-marker&quot; id=&quot;qnt-marker&quot; hidden&gt;&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;qnt-track-labels text-small&quot;&gt;
+          &lt;span&gt;Reject → choose (A)&lt;/span&gt;
+          &lt;span&gt;Fail to reject → pass&lt;/span&gt;
+          &lt;span&gt;Reject → choose (C)&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;qnt-decision-grid&quot; aria-label=&quot;Choose an action&quot;&gt;
+        &lt;button class=&quot;btn&quot; type=&quot;button&quot; data-decision=&quot;A&quot; disabled&gt;Choose (A)&lt;/button&gt;
+        &lt;button class=&quot;btn&quot; type=&quot;button&quot; data-decision=&quot;P&quot; disabled&gt;Pass&lt;/button&gt;
+        &lt;button class=&quot;btn&quot; type=&quot;button&quot; data-decision=&quot;C&quot; disabled&gt;Choose (C)&lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;qnt-actions&quot;&gt;
+        &lt;button class=&quot;btn btn-primary&quot; type=&quot;button&quot; id=&quot;qnt-draw&quot;&gt;Draw round&lt;/button&gt;
+        &lt;button class=&quot;btn btn-ghost&quot; type=&quot;button&quot; id=&quot;qnt-reset&quot;&gt;Reset score&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;p class=&quot;qnt-result&quot; id=&quot;qnt-result&quot; aria-live=&quot;polite&quot;&gt;The hidden distribution will be (A), (B), or (C), with means −1, 0, and 1.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section id=&quot;qnt-batch-panel&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;qnt-batch-tab&quot; hidden&gt;
+    &lt;div class=&quot;qnt-section-head&quot;&gt;
+      &lt;div&gt;
+        &lt;h3&gt;Batch challenge&lt;/h3&gt;
+        &lt;p class=&quot;text-muted&quot; id=&quot;qnt-batch-rule&quot;&gt;Choose (A) below the lower cutoff, (C) above the upper cutoff, and pass between them.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;viz-row&quot;&gt;
+        &lt;label class=&quot;form-label&quot; for=&quot;qnt-batch-size&quot;&gt;
+          Rounds
+          &lt;select class=&quot;form-select&quot; id=&quot;qnt-batch-size&quot;&gt;
+            &lt;option value=&quot;5&quot; selected&gt;5&lt;/option&gt;
+            &lt;option value=&quot;10&quot;&gt;10&lt;/option&gt;
+            &lt;option value=&quot;20&quot;&gt;20&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/label&gt;
+        &lt;button class=&quot;btn btn-primary&quot; type=&quot;button&quot; id=&quot;qnt-deal-batch&quot;&gt;Deal batch&lt;/button&gt;
+        &lt;button class=&quot;btn&quot; type=&quot;button&quot; id=&quot;qnt-apply-test&quot; disabled&gt;Apply test to all&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;viz-grid&quot;&gt;
+      &lt;div class=&quot;card viz-stat&quot;&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;Batch points&lt;/span&gt;
+        &lt;span class=&quot;viz-stat-value tabular-nums&quot; id=&quot;qnt-batch-score&quot;&gt;0&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card viz-stat&quot;&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;Completed&lt;/span&gt;
+        &lt;span class=&quot;viz-stat-value tabular-nums&quot; id=&quot;qnt-batch-completed&quot;&gt;0 / 0&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card viz-stat&quot;&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;Critical region&lt;/span&gt;
+        &lt;span class=&quot;viz-stat-value tabular-nums&quot; id=&quot;qnt-batch-critical&quot;&gt;—&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;table-responsive&quot;&gt;
+      &lt;table class=&quot;table table-sm&quot;&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th scope=&quot;col&quot;&gt;Round&lt;/th&gt;
+            &lt;th scope=&quot;col&quot; class=&quot;text-end&quot;&gt;Sample mean&lt;/th&gt;
+            &lt;th scope=&quot;col&quot; class=&quot;text-end&quot;&gt;z score&lt;/th&gt;
+            &lt;th scope=&quot;col&quot; class=&quot;text-end&quot;&gt;Your decision&lt;/th&gt;
+            &lt;th scope=&quot;col&quot;&gt;Outcome&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody id=&quot;qnt-batch-body&quot;&gt;
+          &lt;tr&gt;&lt;td colspan=&quot;5&quot; class=&quot;text-muted&quot;&gt;Deal a batch to begin.&lt;/td&gt;&lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+    &lt;p class=&quot;text-small text-muted qnt-table-note&quot; id=&quot;qnt-batch-note&quot; aria-live=&quot;polite&quot;&gt;Each row uses a different hidden distribution.&lt;/p&gt;
+  &lt;/section&gt;
+
+  &lt;section id=&quot;qnt-lab-panel&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;qnt-lab-tab&quot; hidden&gt;
+    &lt;div class=&quot;qnt-section-head&quot;&gt;
+      &lt;div&gt;
+        &lt;h3&gt;Simulate the test strategy&lt;/h3&gt;
+        &lt;p class=&quot;text-muted&quot;&gt;Automatically choose (A), pass, or choose (C) from the z statistic.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;viz-row&quot;&gt;
+        &lt;label class=&quot;form-label&quot; for=&quot;qnt-sim-rounds&quot;&gt;
+          Rounds
+          &lt;select class=&quot;form-select&quot; id=&quot;qnt-sim-rounds&quot;&gt;
+            &lt;option value=&quot;100&quot;&gt;100&lt;/option&gt;
+            &lt;option value=&quot;1000&quot; selected&gt;1,000&lt;/option&gt;
+            &lt;option value=&quot;5000&quot;&gt;5,000&lt;/option&gt;
+            &lt;option value=&quot;10000&quot;&gt;10,000&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/label&gt;
+        &lt;button class=&quot;btn btn-primary&quot; type=&quot;button&quot; id=&quot;qnt-simulate&quot;&gt;Run simulation&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;viz-grid&quot;&gt;
+      &lt;div class=&quot;card viz-stat&quot;&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;Points per round&lt;/span&gt;
+        &lt;span class=&quot;viz-stat-value tabular-nums&quot; id=&quot;qnt-sim-score&quot;&gt;—&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card viz-stat&quot;&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;Bet rate&lt;/span&gt;
+        &lt;span class=&quot;viz-stat-value tabular-nums&quot; id=&quot;qnt-sim-bet&quot;&gt;—&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;card viz-stat&quot;&gt;
+        &lt;span class=&quot;text-muted&quot;&gt;Accuracy when betting&lt;/span&gt;
+        &lt;span class=&quot;viz-stat-value tabular-nums&quot; id=&quot;qnt-sim-accuracy&quot;&gt;—&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div aria-label=&quot;Simulation outcome shares&quot;&gt;
+      &lt;div class=&quot;qnt-progress-row&quot;&gt;
+        &lt;span&gt;Correct bet&lt;/span&gt;
+        &lt;div class=&quot;progress&quot; role=&quot;progressbar&quot; aria-label=&quot;Correct bet share&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot; aria-valuenow=&quot;0&quot;&gt;&lt;div class=&quot;progress-bar&quot; id=&quot;qnt-correct-bar&quot; style=&quot;width:0%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;span class=&quot;tabular-nums&quot; id=&quot;qnt-correct-rate&quot;&gt;—&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;qnt-progress-row&quot;&gt;
+        &lt;span&gt;Wrong bet&lt;/span&gt;
+        &lt;div class=&quot;progress&quot; role=&quot;progressbar&quot; aria-label=&quot;Wrong bet share&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot; aria-valuenow=&quot;0&quot;&gt;&lt;div class=&quot;progress-bar&quot; id=&quot;qnt-wrong-bar&quot; style=&quot;width:0%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;span class=&quot;tabular-nums&quot; id=&quot;qnt-wrong-rate&quot;&gt;—&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;qnt-progress-row&quot;&gt;
+        &lt;span&gt;Pass&lt;/span&gt;
+        &lt;div class=&quot;progress&quot; role=&quot;progressbar&quot; aria-label=&quot;Pass share&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot; aria-valuenow=&quot;0&quot;&gt;&lt;div class=&quot;progress-bar&quot; id=&quot;qnt-pass-bar&quot; style=&quot;width:0%&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;span class=&quot;tabular-nums&quot; id=&quot;qnt-pass-rate&quot;&gt;—&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;table-responsive&quot;&gt;
+      &lt;table class=&quot;table table-sm&quot;&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th scope=&quot;col&quot;&gt;True distribution&lt;/th&gt;
+            &lt;th scope=&quot;col&quot; class=&quot;text-end&quot;&gt;Choose (A)&lt;/th&gt;
+            &lt;th scope=&quot;col&quot; class=&quot;text-end&quot;&gt;Pass&lt;/th&gt;
+            &lt;th scope=&quot;col&quot; class=&quot;text-end&quot;&gt;Choose (C)&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody id=&quot;qnt-confusion&quot;&gt;
+          &lt;tr&gt;&lt;td colspan=&quot;4&quot; class=&quot;text-muted&quot;&gt;Run the simulation to see the decision pattern.&lt;/td&gt;&lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+    &lt;p class=&quot;text-small text-muted qnt-table-note&quot; id=&quot;qnt-sim-note&quot; aria-live=&quot;polite&quot;&gt;Rows show the percentage of each true distribution assigned to each action.&lt;/p&gt;
+  &lt;/section&gt;
+
+  &lt;script&gt;
+    (() =&gt; {
+      const root = document.getElementById(&#x27;qnt-hypothesis-game&#x27;);
+      if (!root) return;
+
+      const $ = (selector) =&gt; root.querySelector(selector);
+      const $$ = (selector) =&gt; Array.from(root.querySelectorAll(selector));
+      const els = {
+        n: $(&#x27;#qnt-n&#x27;), nValue: $(&#x27;#qnt-n-value&#x27;), alpha: $(&#x27;#qnt-alpha&#x27;), sigma: $(&#x27;#qnt-sigma&#x27;), loss: $(&#x27;#qnt-loss&#x27;),
+        confidenceBadge: $(&#x27;#qnt-confidence-badge&#x27;), score: $(&#x27;#qnt-score&#x27;), roundCount: $(&#x27;#qnt-round-count&#x27;),
+        recommendation: $(&#x27;#qnt-recommendation&#x27;), samples: $(&#x27;#qnt-samples&#x27;), roundStats: $(&#x27;#qnt-round-stats&#x27;),
+        leftRegion: $(&#x27;#qnt-left-region&#x27;), midRegion: $(&#x27;#qnt-mid-region&#x27;), rightRegion: $(&#x27;#qnt-right-region&#x27;),
+        leftCutoff: $(&#x27;#qnt-left-cutoff&#x27;), rightCutoff: $(&#x27;#qnt-right-cutoff&#x27;), marker: $(&#x27;#qnt-marker&#x27;),
+        draw: $(&#x27;#qnt-draw&#x27;), reset: $(&#x27;#qnt-reset&#x27;), result: $(&#x27;#qnt-result&#x27;),
+        simRounds: $(&#x27;#qnt-sim-rounds&#x27;), simulate: $(&#x27;#qnt-simulate&#x27;), simScore: $(&#x27;#qnt-sim-score&#x27;),
+        simBet: $(&#x27;#qnt-sim-bet&#x27;), simAccuracy: $(&#x27;#qnt-sim-accuracy&#x27;), confusion: $(&#x27;#qnt-confusion&#x27;), simNote: $(&#x27;#qnt-sim-note&#x27;),
+        batchSize: $(&#x27;#qnt-batch-size&#x27;), dealBatch: $(&#x27;#qnt-deal-batch&#x27;), applyTest: $(&#x27;#qnt-apply-test&#x27;),
+        batchScore: $(&#x27;#qnt-batch-score&#x27;), batchCompleted: $(&#x27;#qnt-batch-completed&#x27;), batchCritical: $(&#x27;#qnt-batch-critical&#x27;),
+        batchBody: $(&#x27;#qnt-batch-body&#x27;), batchNote: $(&#x27;#qnt-batch-note&#x27;), batchRule: $(&#x27;#qnt-batch-rule&#x27;)
+      };
+
+      const domain = 4.25;
+      const labels = { &#x27;-1&#x27;: &#x27;(A)&#x27;, &#x27;0&#x27;: &#x27;(B)&#x27;, &#x27;1&#x27;: &#x27;(C)&#x27; };
+      const state = { score: 0, rounds: 0, active: null, resolved: true, batch: [], batchScore: 0, lastSimulation: null };
+
+      function normalRandom() {
+        let u = 0, v = 0;
+        while (u === 0) u = Math.random();
+        while (v === 0) v = Math.random();
+        return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+      }
+
+      function normalInv(p) {
+        const a = [-39.6968302866538, 220.946098424521, -275.928510446969, 138.357751867269, -30.6647980661472, 2.50662827745924];
+        const b = [-54.4760987982241, 161.585836858041, -155.698979859887, 66.8013118877197, -13.2806815528857];
+        const c = [-0.00778489400243029, -0.322396458041136, -2.40075827716184, -2.54973253934373, 4.37466414146497, 2.93816398269878];
+        const d = [0.00778469570904146, 0.32246712907004, 2.445134137143, 3.75440866190742];
+        const low = 0.02425;
+        const high = 1 - low;
+        let q, r;
+        if (p &lt; low) {
+          q = Math.sqrt(-2 * Math.log(p));
+          return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+        }
+        if (p &lt;= high) {
+          q = p - 0.5;
+          r = q * q;
+          return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q / (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+        }
+        q = Math.sqrt(-2 * Math.log(1-p));
+        return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+      }
+
+      function settings() {
+        let alpha = Number(els.alpha.value);
+        if (!(alpha &gt; 0 &amp;&amp; alpha &lt; 1)) {
+          alpha = 0.01;
+          els.alpha.value = &#x27;0.01&#x27;;
+        }
+        return {
+          n: Number(els.n.value),
+          alpha,
+          sigma: Number(els.sigma.value),
+          loss: Number(els.loss.value),
+          critical: normalInv(1 - alpha / 2)
+        };
+      }
+
+      function pct(value, digits = 1) {
+        return `${(100 * value).toFixed(digits)}%`;
+      }
+
+      function confidenceLabel(alpha) {
+        const confidence = 100 * (1 - alpha);
+        const digits = Math.abs(confidence - Math.round(confidence)) &lt; 1e-9 ? 0 : 1;
+        return `${confidence.toFixed(digits)}% confidence`;
+      }
+
+      function actionFromZ(z, critical) {
+        if (z &lt; -critical) return &#x27;A&#x27;;
+        if (z &gt; critical) return &#x27;C&#x27;;
+        return &#x27;P&#x27;;
+      }
+
+      function actionLabel(action) {
+        return action === &#x27;P&#x27; ? &#x27;Pass&#x27; : `Choose (${action})`;
+      }
+
+      function makeRound(config) {
+        const mu = [-1, 0, 1][Math.floor(Math.random() * 3)];
+        const samples = Array.from({ length: config.n }, () =&gt; mu + config.sigma * normalRandom());
+        const mean = samples.reduce((sum, value) =&gt; sum + value, 0) / config.n;
+        const z = mean / (config.sigma / Math.sqrt(config.n));
+        return { mu, samples, mean, z, recommendation: actionFromZ(z, config.critical), config };
+      }
+
+      function setDecisionButtons(enabled) {
+        $$(&#x27;[data-decision]&#x27;).forEach((button) =&gt; { button.disabled = !enabled; });
+      }
+
+      function positionForZ(z) {
+        return Math.max(0, Math.min(100, ((z + domain) / (2 * domain)) * 100));
+      }
+
+      function updateTrack(critical, z = null) {
+        const left = positionForZ(-critical);
+        const right = positionForZ(critical);
+        els.leftRegion.style.width = `${left}%`;
+        els.midRegion.style.width = `${Math.max(0, right - left)}%`;
+        els.rightRegion.style.width = `${Math.max(0, 100 - right)}%`;
+        els.leftCutoff.style.left = `${left}%`;
+        els.rightCutoff.style.left = `${right}%`;
+        els.leftCutoff.textContent = `−${critical.toFixed(2)}`;
+        els.rightCutoff.textContent = critical.toFixed(2);
+        if (z === null) {
+          els.marker.hidden = true;
+        } else {
+          els.marker.hidden = false;
+          els.marker.style.left = `${positionForZ(z)}%`;
+          els.marker.setAttribute(&#x27;aria-label&#x27;, `Observed z score ${z.toFixed(2)}`);
+        }
+      }
+
+      function updateSettingsDisplay() {
+        const config = settings();
+        els.nValue.textContent = String(config.n);
+        els.confidenceBadge.textContent = confidenceLabel(config.alpha);
+        if (!state.active || state.resolved) updateTrack(config.critical, null);
+        saveState();
+      }
+
+      function renderRound(round) {
+        els.samples.replaceChildren(...round.samples.map((value) =&gt; {
+          const chip = document.createElement(&#x27;span&#x27;);
+          chip.className = &#x27;qnt-sample&#x27;;
+          chip.textContent = value.toFixed(3);
+          return chip;
+        }));
+        els.roundStats.textContent = `x̄ = ${round.mean.toFixed(3)} · z = ${round.z.toFixed(3)}`;
+        els.recommendation.textContent = actionLabel(round.recommendation);
+        els.result.textContent = &#x27;Choose an action. The hidden distribution is still concealed.&#x27;;
+        updateTrack(round.config.critical, round.z);
+        setDecisionButtons(true);
+      }
+
+      function drawRound() {
+        state.active = makeRound(settings());
+        state.resolved = false;
+        els.draw.disabled = true;
+        renderRound(state.active);
+      }
+
+      function resolveRound(action) {
+        if (!state.active || state.resolved) return;
+        const truth = labels[String(state.active.mu)];
+        let delta = 0;
+        let outcome;
+        if (action === &#x27;P&#x27;) {
+          outcome = `Passed. The distribution was ${truth}.`;
+        } else if (`(${action})` === truth) {
+          delta = 1;
+          outcome = `Correct: ${truth}. +1 point.`;
+        } else {
+          delta = -state.active.config.loss;
+          outcome = `Wrong: the distribution was ${truth}. ${delta} points.`;
+        }
+        state.score += delta;
+        state.rounds += 1;
+        state.resolved = true;
+        els.score.textContent = String(state.score);
+        els.roundCount.textContent = String(state.rounds);
+        els.result.textContent = `${outcome} The test recommended ${actionLabel(state.active.recommendation)}.`;
+        els.draw.textContent = &#x27;Next round&#x27;;
+        els.draw.disabled = false;
+        setDecisionButtons(false);
+        saveState();
+      }
+
+      function resetScore() {
+        state.score = 0;
+        state.rounds = 0;
+        state.active = null;
+        state.resolved = true;
+        els.score.textContent = &#x27;0&#x27;;
+        els.roundCount.textContent = &#x27;0&#x27;;
+        els.recommendation.textContent = &#x27;—&#x27;;
+        els.samples.innerHTML = &#x27;&lt;span class=&quot;text-muted&quot;&gt;No samples yet&lt;/span&gt;&#x27;;
+        els.roundStats.textContent = &#x27;Draw a round to begin&#x27;;
+        els.result.textContent = &#x27;Score reset. Draw a new round when ready.&#x27;;
+        els.draw.textContent = &#x27;Draw round&#x27;;
+        els.draw.disabled = false;
+        setDecisionButtons(false);
+        updateTrack(settings().critical, null);
+        saveState();
+      }
+
+      function dealBatch() {
+        const config = settings();
+        const size = Number(els.batchSize.value);
+        state.batch = Array.from({ length: size }, () =&gt; ({ ...makeRound(config), choice: null, delta: 0 }));
+        state.batchScore = 0;
+        els.batchCritical.textContent = `|z| &gt; ${config.critical.toFixed(2)}`;
+        els.batchRule.textContent = `Choose (A) when z &lt; −${config.critical.toFixed(2)}, choose (C) when z &gt; ${config.critical.toFixed(2)}, and pass otherwise.`;
+        els.applyTest.disabled = false;
+        renderBatch();
+      }
+
+      function batchChoice(index, action) {
+        const round = state.batch[index];
+        if (!round || round.choice) return;
+        const truth = labels[String(round.mu)];
+        let delta = 0;
+        if (action !== &#x27;P&#x27;) delta = `(${action})` === truth ? 1 : -round.config.loss;
+        round.choice = action;
+        round.delta = delta;
+        state.batchScore += delta;
+        state.score += delta;
+        state.rounds += 1;
+        els.score.textContent = String(state.score);
+        els.roundCount.textContent = String(state.rounds);
+        renderBatch();
+        saveState();
+      }
+
+      function applyTestToBatch() {
+        state.batch.forEach((round, index) =&gt; {
+          if (!round.choice) batchChoice(index, round.recommendation);
+        });
+      }
+
+      function renderBatch() {
+        if (!state.batch.length) return;
+        const completed = state.batch.filter((round) =&gt; round.choice).length;
+        els.batchScore.textContent = String(state.batchScore);
+        els.batchCompleted.textContent = `${completed} / ${state.batch.length}`;
+        els.applyTest.disabled = completed === state.batch.length;
+        els.batchBody.innerHTML = state.batch.map((round, index) =&gt; {
+          const buttons = round.choice
+            ? `&lt;span class=&quot;text-muted&quot;&gt;${actionLabel(round.choice)}&lt;/span&gt;`
+            : `&lt;div class=&quot;qnt-batch-actions&quot; data-batch-index=&quot;${index}&quot;&gt;&lt;button class=&quot;btn btn-ghost&quot; type=&quot;button&quot; data-batch-action=&quot;A&quot; aria-label=&quot;Round ${index + 1}: choose A&quot;&gt;A&lt;/button&gt;&lt;button class=&quot;btn btn-ghost&quot; type=&quot;button&quot; data-batch-action=&quot;P&quot; aria-label=&quot;Round ${index + 1}: pass&quot;&gt;P&lt;/button&gt;&lt;button class=&quot;btn btn-ghost&quot; type=&quot;button&quot; data-batch-action=&quot;C&quot; aria-label=&quot;Round ${index + 1}: choose C&quot;&gt;C&lt;/button&gt;&lt;/div&gt;`;
+          let outcome = &#x27;&lt;span class=&quot;text-muted&quot;&gt;Hidden&lt;/span&gt;&#x27;;
+          if (round.choice) {
+            const truth = labels[String(round.mu)];
+            if (round.choice === &#x27;P&#x27;) outcome = `&lt;span&gt;Passed · ${truth}&lt;/span&gt;`;
+            else if (round.delta &gt; 0) outcome = `&lt;span class=&quot;qnt-outcome-correct&quot;&gt;Correct · ${truth} · +1&lt;/span&gt;`;
+            else outcome = `&lt;span class=&quot;qnt-outcome-wrong&quot;&gt;Wrong · ${truth} · ${round.delta}&lt;/span&gt;`;
+          }
+          return `&lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;${index + 1}&lt;/th&gt;&lt;td class=&quot;text-end&quot;&gt;${round.mean.toFixed(3)}&lt;/td&gt;&lt;td class=&quot;text-end&quot;&gt;${round.z.toFixed(3)}&lt;/td&gt;&lt;td class=&quot;text-end&quot;&gt;${buttons}&lt;/td&gt;&lt;td&gt;${outcome}&lt;/td&gt;&lt;/tr&gt;`;
+        }).join(&#x27;&#x27;);
+        $$(&#x27;[data-batch-index]&#x27;).forEach((group) =&gt; {
+          const index = Number(group.dataset.batchIndex);
+          group.querySelectorAll(&#x27;[data-batch-action]&#x27;).forEach((button) =&gt; {
+            button.addEventListener(&#x27;click&#x27;, () =&gt; batchChoice(index, button.dataset.batchAction));
+          });
+        });
+        els.batchNote.textContent = completed === state.batch.length
+          ? `Batch complete. Test-rule score: ${state.batchScore} points.`
+          : `${state.batch.length - completed} decisions remaining. Use “Apply test to all” to fill the rest automatically.`;
+      }
+
+      function runSimulation() {
+        const config = settings();
+        const rounds = Number(els.simRounds.value);
+        const matrix = { &#x27;-1&#x27;: { A: 0, P: 0, C: 0 }, &#x27;0&#x27;: { A: 0, P: 0, C: 0 }, &#x27;1&#x27;: { A: 0, P: 0, C: 0 } };
+        const truthCounts = { &#x27;-1&#x27;: 0, &#x27;0&#x27;: 0, &#x27;1&#x27;: 0 };
+        let correct = 0, wrong = 0, pass = 0, score = 0;
+        for (let i = 0; i &lt; rounds; i += 1) {
+          const round = makeRound(config);
+          const action = round.recommendation;
+          const key = String(round.mu);
+          truthCounts[key] += 1;
+          matrix[key][action] += 1;
+          if (action === &#x27;P&#x27;) {
+            pass += 1;
+          } else if (`(${action})` === labels[key]) {
+            correct += 1;
+            score += 1;
+          } else {
+            wrong += 1;
+            score -= config.loss;
+          }
+        }
+        const bet = correct + wrong;
+        const summary = {
+          rounds, scorePerRound: score / rounds, betRate: bet / rounds,
+          accuracy: bet ? correct / bet : 0, correctRate: correct / rounds,
+          wrongRate: wrong / rounds, passRate: pass / rounds, matrix, truthCounts
+        };
+        state.lastSimulation = summary;
+        renderSimulation(summary);
+        saveState();
+      }
+
+      function setProgress(id, value) {
+        const bar = $(`#qnt-${id}-bar`);
+        const label = $(`#qnt-${id}-rate`);
+        const percent = 100 * value;
+        bar.style.width = `${percent}%`;
+        bar.parentElement.setAttribute(&#x27;aria-valuenow&#x27;, percent.toFixed(1));
+        label.textContent = `${percent.toFixed(1)}%`;
+      }
+
+      function renderSimulation(summary) {
+        els.simScore.textContent = summary.scorePerRound.toFixed(3);
+        els.simBet.textContent = pct(summary.betRate);
+        els.simAccuracy.textContent = summary.betRate ? pct(summary.accuracy) : &#x27;—&#x27;;
+        setProgress(&#x27;correct&#x27;, summary.correctRate);
+        setProgress(&#x27;wrong&#x27;, summary.wrongRate);
+        setProgress(&#x27;pass&#x27;, summary.passRate);
+        const rows = [[&#x27;-1&#x27;, &#x27;(A)&#x27;], [&#x27;0&#x27;, &#x27;(B)&#x27;], [&#x27;1&#x27;, &#x27;(C)&#x27;]].map(([key, label]) =&gt; {
+          const total = summary.truthCounts[key] || 1;
+          return `&lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;${label}&lt;/th&gt;&lt;td class=&quot;text-end&quot;&gt;${pct(summary.matrix[key].A / total)}&lt;/td&gt;&lt;td class=&quot;text-end&quot;&gt;${pct(summary.matrix[key].P / total)}&lt;/td&gt;&lt;td class=&quot;text-end&quot;&gt;${pct(summary.matrix[key].C / total)}&lt;/td&gt;&lt;/tr&gt;`;
+        });
+        els.confusion.innerHTML = rows.join(&#x27;&#x27;);
+        els.simNote.textContent = `${summary.rounds.toLocaleString()} rounds · ${settings().n} samples · two-sided α ${pct(settings().alpha)} · wrong bet −${settings().loss}`;
+      }
+
+      function saveState() {
+        if (!window.openai || typeof window.openai.setWidgetState !== &#x27;function&#x27;) return;
+        const config = settings();
+        window.openai.setWidgetState({
+          modelContent: { n: config.n, alpha: config.alpha, sigma: config.sigma, loss: config.loss, lastSimulation: state.lastSimulation },
+          privateContent: { score: state.score, rounds: state.rounds }
+        }).catch(() =&gt; {});
+      }
+
+      function applySavedState(saved) {
+        if (!saved || typeof saved !== &#x27;object&#x27;) return;
+        const model = saved.modelContent || saved || {};
+        const privateState = saved.privateContent || {};
+        if (Number.isFinite(model.n)) els.n.value = String(model.n);
+        if (Number.isFinite(model.alpha) &amp;&amp; model.alpha &gt; 0 &amp;&amp; model.alpha &lt; 1) {
+          const matchingAlpha = Array.from(els.alpha.options).find((option) =&gt; Math.abs(Number(option.value) - model.alpha) &lt; 1e-12);
+          if (matchingAlpha) els.alpha.value = matchingAlpha.value;
+        }
+        if (Number.isFinite(model.sigma)) els.sigma.value = String(model.sigma);
+        if (Number.isFinite(model.loss)) els.loss.value = String(model.loss);
+        if (Number.isFinite(privateState.score)) state.score = privateState.score;
+        if (Number.isFinite(privateState.rounds)) state.rounds = privateState.rounds;
+        state.lastSimulation = model.lastSimulation || null;
+        els.score.textContent = String(state.score);
+        els.roundCount.textContent = String(state.rounds);
+        if (state.lastSimulation) renderSimulation(state.lastSimulation);
+        updateSettingsDisplay();
+      }
+
+      [els.n, els.alpha, els.sigma, els.loss].forEach((control) =&gt; {
+        control.addEventListener(&#x27;input&#x27;, updateSettingsDisplay);
+        control.addEventListener(&#x27;change&#x27;, updateSettingsDisplay);
+      });
+      els.draw.addEventListener(&#x27;click&#x27;, drawRound);
+      els.reset.addEventListener(&#x27;click&#x27;, resetScore);
+      els.dealBatch.addEventListener(&#x27;click&#x27;, dealBatch);
+      els.applyTest.addEventListener(&#x27;click&#x27;, applyTestToBatch);
+      els.simulate.addEventListener(&#x27;click&#x27;, runSimulation);
+      $$(&#x27;[data-decision]&#x27;).forEach((button) =&gt; button.addEventListener(&#x27;click&#x27;, () =&gt; resolveRound(button.dataset.decision)));
+      window.addEventListener(&#x27;openai:set_globals&#x27;, (event) =&gt; {
+        const saved = event.detail &amp;&amp; event.detail.globals ? event.detail.globals.widgetState : null;
+        applySavedState(saved);
+      });
+
+      applySavedState(window.openai &amp;&amp; window.openai.widgetState ? window.openai.widgetState : null);
+      updateSettingsDisplay();
+    })();
+  &lt;/script&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+  let lastPointerWasTouch = false;
+  let pinnedByTouch = false;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    pinnedByTouch = false;
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handlePointer = (event) =&gt; {
+    lastPointerWasTouch =
+      event.type === &quot;pointerdown&quot; &amp;&amp; event.pointerType === &quot;touch&quot;;
+  };
+  const handleTouchClick = (event) =&gt; {
+    const isTouch = event.pointerType === &quot;touch&quot; || lastPointerWasTouch;
+    lastPointerWasTouch = false;
+    if (!isTouch || event.detail === 0) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (
+      trigger == null ||
+      !trigger.isConnected ||
+      getContent(trigger).length === 0 ||
+      (pinnedByTouch &amp;&amp; activeTrigger === trigger)
+    ) {
+      if (pinnedByTouch) {
+        closeTooltip();
+      }
+      return;
+    }
+    openTooltip(trigger);
+    pinnedByTouch = activeTrigger === trigger;
+    window.setTimeout(() =&gt; {
+      if (activeTrigger === trigger &amp;&amp; !trigger.isConnected) {
+        closeTooltip(false);
+      }
+    }, 0);
+  };
+  const handleLeave = (event) =&gt; {
+    if (pinnedByTouch) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    lastPointerWasTouch = false;
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    lastPointerWasTouch = false;
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerdown&quot;, handlePointer);
+    document.removeEventListener(&quot;pointercancel&quot;, handlePointer);
+    document.removeEventListener(&quot;click&quot;, handleTouchClick);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerdown&quot;, handlePointer);
+  document.addEventListener(&quot;pointercancel&quot;, handlePointer);
+  document.addEventListener(&quot;click&quot;, handleTouchClick);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-tabs&quot;&gt;
+(() =&gt; {
+  const selector = &#x27;.nav[role=&quot;tablist&quot;] [role=&quot;tab&quot;]&#x27;;
+  const disabled = &#x27;:disabled,[aria-disabled=&quot;true&quot;]&#x27;;
+  const selectTab = (selected) =&gt; {
+    const panelId = selected.getAttribute(&quot;aria-controls&quot;);
+    for (const tab of selected.closest(&#x27;[role=&quot;tablist&quot;]&#x27;).querySelectorAll(&#x27;[role=&quot;tab&quot;]&#x27;)) {
+      const active = tab === selected;
+      tab.classList.toggle(&quot;active&quot;, active);
+      tab.setAttribute(&quot;aria-selected&quot;, String(active));
+      const id = tab.getAttribute(&quot;aria-controls&quot;);
+      const panel = id &amp;&amp; document.getElementById(id);
+      if (panel != null) {
+        panel.hidden = id !== panelId;
+        if (!panel.hidden &amp;&amp; selected.id) {
+          panel.setAttribute(&quot;aria-labelledby&quot;, selected.id);
+        }
+      }
+    }
+  };
+  const interact = (event) =&gt; {
+    const tab = event.target?.closest?.(selector);
+    if (event.defaultPrevented || tab == null || tab.matches(disabled)) {
+      return;
+    }
+    if (event.type === &quot;click&quot;) {
+      selectTab(tab);
+      return;
+    }
+    const tabs = Array.from(
+      tab.closest(&#x27;[role=&quot;tablist&quot;]&#x27;).querySelectorAll(&#x27;[role=&quot;tab&quot;]&#x27;),
+    ).filter((candidate) =&gt; !candidate.matches(disabled));
+    const current = tabs.indexOf(tab);
+    let next;
+    if (event.key === &quot;ArrowRight&quot; || event.key === &quot;ArrowDown&quot;) {
+      next = (current + 1) % tabs.length;
+    } else if (event.key === &quot;ArrowLeft&quot; || event.key === &quot;ArrowUp&quot;) {
+      next = (current + tabs.length - 1) % tabs.length;
+    } else if (event.key === &quot;Home&quot;) {
+      next = 0;
+    } else if (event.key === &quot;End&quot;) {
+      next = tabs.length - 1;
+    } else {
+      return;
+    }
+    event.preventDefault();
+    tabs[next].focus();
+    selectTab(tabs[next]);
+  };
+
+  for (const list of document.querySelectorAll(&#x27;.nav[role=&quot;tablist&quot;]&#x27;)) {
+    const selected =
+      list.querySelector(&#x27;[role=&quot;tab&quot;][aria-selected=&quot;true&quot;]&#x27;) ??
+      list.querySelector(&#x27;[role=&quot;tab&quot;].active&#x27;) ??
+      list.querySelector(&#x27;[role=&quot;tab&quot;]&#x27;);
+    if (selected != null) {
+      selectTab(selected);
+    }
+  }
+  document.addEventListener(&quot;click&quot;, interact);
+  document.addEventListener(&quot;keydown&quot;, interact);
+  window.addEventListener(&quot;pagehide&quot;, () =&gt; {
+    document.removeEventListener(&quot;click&quot;, interact);
+    document.removeEventListener(&quot;keydown&quot;, interact);
+  }, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+<script>(() => {
+  const frame = document.getElementById("codex-visualization");
+  if (!(frame instanceof HTMLIFrameElement)) {
+    return;
+  }
+  let viewportHeight = globalThis.innerHeight;
+  const storageKey = `codex:visualization-widget-state-v2:${JSON.stringify([
+    globalThis.location.pathname,
+    globalThis.location.search,
+  ])}`;
+  const parseState = (serializedState) => {
+    if (
+      typeof serializedState !== "string" ||
+      new TextEncoder().encode(serializedState).length > 16 * 1024
+    ) {
+      throw new TypeError(
+        "Widget state must be a JSON object of at most 16 KiB",
+      );
+    }
+    /** @type {unknown} */
+    const state = JSON.parse(serializedState);
+    if (
+      state == null ||
+      typeof state !== "object" ||
+      Array.isArray(state) ||
+      ("imageIds" in state &&
+        (!Array.isArray(state.imageIds) || state.imageIds.length > 0))
+    ) {
+      throw new TypeError("Widget state must be a JSON object");
+    }
+    const storedState = { modelContent: null, privateContent: null, ...state };
+    const canonicalState = JSON.stringify(
+      storedState,
+      (_key, /** @type {unknown} */ value) => {
+        if (typeof value === "number" && !Number.isFinite(value)) {
+          throw new TypeError("Widget state must contain finite numbers");
+        }
+        return value;
+      },
+    );
+    if (new TextEncoder().encode(canonicalState).length > 16 * 1024) {
+      throw new TypeError(
+        "Widget state must be a JSON object of at most 16 KiB",
+      );
+    }
+    return storedState;
+  };
+  let storage = null;
+  let state = null;
+  try {
+    const localStorage = globalThis.localStorage;
+    const probeKey = `${storageKey}:probe`;
+    localStorage.setItem(probeKey, "1");
+    localStorage.removeItem(probeKey);
+    storage = localStorage;
+    const savedState = storage.getItem(storageKey);
+    if (savedState != null) {
+      try {
+        state = parseState(savedState);
+      } catch {
+        // Invalid saved state does not disable future writes.
+      }
+    }
+  } catch {
+    storage = null;
+  }
+  const initialGlobals = {
+    widgetState: state,
+    statePersistence: storage == null ? "none" : "local",
+  };
+
+  const channel = new MessageChannel();
+  channel.port1.addEventListener("message", (event) => {
+    const data = event.data;
+    if (typeof data !== "object" || data == null) {
+      return;
+    }
+    if (data.type === "widget-state-write") {
+      if (!Number.isSafeInteger(data.id) || data.id <= 0) {
+        return;
+      }
+      let ok = false;
+      try {
+        if (storage != null) {
+          const state = parseState(data.state);
+          storage.setItem(storageKey, JSON.stringify(state));
+          ok = true;
+        }
+      } catch {
+        // Storage denial, quota limits, and invalid state return a failed receipt.
+      }
+      channel.port1.postMessage({
+        type: "widget-state-result",
+        id: data.id,
+        ok,
+      });
+      return;
+    }
+    if (data.type === "height") {
+      const height = data.height;
+      if (
+        typeof height === "number" &&
+        Number.isFinite(height) &&
+        height >= 0 &&
+        height <= 10_000
+      ) {
+        frame.style.height = Math.ceil(height) + "px";
+      }
+      return;
+    }
+    if (data.type === "scroll-to") {
+      const top = data.top;
+      if (
+        typeof top === "number" &&
+        Number.isFinite(top) &&
+        top >= 0 &&
+        globalThis.navigator.userActivation?.isActive === true
+      ) {
+        globalThis.scrollTo({
+          top: Math.ceil(
+            globalThis.scrollY + frame.getBoundingClientRect().top + top,
+          ),
+        });
+      }
+      return;
+    }
+    if (data.type === "open-external") {
+      const rawHref = data.href;
+      if (typeof rawHref !== "string") {
+        return;
+      }
+      let href;
+      try {
+        const url = new URL(rawHref, document.baseURI);
+        if (url.protocol !== "https:") {
+          return;
+        }
+        href = url.href;
+      } catch {
+        return;
+      }
+      if (globalThis.navigator.userActivation?.isActive === true) {
+        const anchor = document.createElement("a");
+        anchor.href = href;
+        anchor.rel = "noopener noreferrer";
+        anchor.target = "_blank";
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+      }
+      return;
+    }
+    if (data.type === "follow-up") {
+      const prompt = data.prompt;
+      if (
+        typeof prompt !== "string" ||
+        globalThis.navigator.userActivation?.isActive !== true
+      ) {
+        return;
+      }
+      const title = data.title;
+      globalThis.prompt(typeof title === "string" ? title : prompt, prompt);
+    }
+  });
+  channel.port1.start();
+  const srcdoc = frame.dataset.srcdoc;
+  if (srcdoc == null) {
+    return;
+  }
+  globalThis.addEventListener("resize", () => {
+    const height = Number.parseFloat(frame.style.height);
+    if (!Number.isFinite(height) || height <= viewportHeight) {
+      frame.style.removeProperty("height");
+    }
+    viewportHeight = globalThis.innerHeight;
+    channel.port1.postMessage({ type: "measure" });
+  });
+  frame.addEventListener(
+    "load",
+    () => {
+      frame.contentWindow?.postMessage(
+        { type: "codex-visualization-initialize" },
+        "*",
+        [channel.port2],
+      );
+    },
+    { once: true },
+  );
+  // Match the trusted bootstrap element, not the same text in an authored title.
+  frame.srcdoc = srcdoc.replace(
+    '<script type="application/json" id="codex-visualization-widget-state">__CODEX_VISUALIZATION_WIDGET_STATE__<\/script>',
+    () =>
+      '<script type="application/json" id="codex-visualization-widget-state">' +
+      JSON.stringify(initialGlobals).replaceAll("<", "\\u003c") +
+      "<\/script>",
+  );
+  delete frame.dataset.srcdoc;
+})();
+</script>
+</body>
+</html>

@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://mh3166.github.io/categories/</loc>
+    <loc>https://mh3166.github.io/hypothesis-testing-game/</loc>
+    <lastmod>2026-09-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://mh3166.github.io/</loc>
+    <lastmod>2026-09-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mh3166.github.io/teaching/</loc>
+    <lastmod>2026-01-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mh3166.github.io/categories/</loc>
   </url><url>
     <loc>https://mh3166.github.io/tags/</loc>
   </url>
