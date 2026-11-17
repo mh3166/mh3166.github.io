@@ -20,7 +20,7 @@
       <link>https://mh3166.github.io/teaching/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
       <guid>https://mh3166.github.io/teaching/</guid>
-      <description>Baruch College, Zicklin School of Business OPM 3400: Operations Management Undergraduate — Spring 2025, Fall 2024&#xA;Introduction to the principles and methods of operations management, including process analysis, capacity planning, inventory management, and supply chain design.&#xA;OPM 4500: Data-Driven Decision Making Undergraduate — Spring 2025&#xA;An introduction to data-driven methods for managerial decision-making. Topics include statistical modeling, optimization under uncertainty, and machine learning applications in operations.&#xA;USC Marshall School of Business (Teaching Assistant) DSO 530: Applied Modern Statistical Learning Methods Graduate — Spring 2022, Spring 2021</description>
+      <description>Teaching Resources Hypothesis Testing Game An interactive game for practicing hypothesis testing and decision-making under uncertainty. Use sample data and a two-sided z-test to decide whether a hidden population mean is negative or positive, or pass when the evidence is inconclusive. Experiment with sample size, significance level, variability, and penalties for incorrect guesses to explore the trade-offs between statistical evidence, risk, and reward.&#xA;Excel Solver Interactive Tutorial A hands-on slide tutorial on using Excel Solver for linear optimization.</description>
     </item>
   </channel>
 </rss>
